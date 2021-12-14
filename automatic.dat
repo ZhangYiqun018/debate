@@ -1,0 +1,15 @@
+nohup /root/anaconda3/envs/darkspiderman/bin/python -u /root/spider/robot/spiderNews.py > /root/spider/robot/spiderNews.log 2>&1 &
+
+
+
+nohup /root/anaconda3/envs/darkspiderman/bin/python -u /root/spider/robot/getNeuNews.py > /root/spider/robot/getNeuNews.log 2>&1 &
+
+
+pyinstaller -F D:\BaiduNetdiskWorkspace\辩论\debate\DebateSpeed.py
+
+pyinstaller -F --distpath D:\BaiduNetdiskWorkspace\辩论\debate D:\BaiduNetdiskWorkspace\辩论\debate\DebateSpeed.py
+
+
+pyinstaller -F --distpath /Users/apple/Desktop/百度云工作空间/辩论/debate/可执行文件 /Users/apple/Desktop/百度云工作空间/辩论/debate/DebateSpeed.py
+
+
