@@ -51,7 +51,6 @@ class ToEmail():
 			server.ehlo(host_server)
 			server.login(self.sender, self.pwd)
 			server.sendmail(self.sender, self.receiver, m.as_string())
-			NowTime = datetime.datetime.now().strftime('%H:%M:%S.%f')
 			server.quit()
 
 		except smtplib.SMTPException as e:
@@ -84,10 +83,10 @@ def process():
 
 if __name__ == '__main__':
 	r = tkinter.Tk()
-	r.title('自动发邮件1.0(为了方便目前只支持qq邮箱)')
+	r.title('自动发邮件1.0')
 	r.geometry("800x600")
 
-	L_time = tkinter.Label(r, text="发送时间(%h:%m:%s.%f)")
+	L_time = tkinter.Label(r, text="\n发送时间(%h:%m:%s.%f)")
 	L_time.pack()
 	E_time = tkinter.Entry(r, bd=4)
 	E_time.pack()
@@ -128,9 +127,12 @@ if __name__ == '__main__':
 	E_content.insert(tkinter.END, 'test')
 	E_content.pack()
 
-	B1 = tkinter.Button(r, text="点我", command=process)
+	B1 = tkinter.Button(r, text="点我发邮件", command=process)
 	B1.pack()
 	B2 = tkinter.Button(r, text="取消", command=quit)
 	B2.pack()
+
+	L_text = tkinter.Label(r, text="\n网辩拼手速脚本\n使用方法见readme.md\n目前只支持qq邮箱发送，接收方邮箱不限\nhttps://github.com/ZhangYiqun018/debate\nby 张逸群", fg = 'grey')
+	L_text.pack(side = tkinter.RIGHT)
 
 	r.mainloop()
