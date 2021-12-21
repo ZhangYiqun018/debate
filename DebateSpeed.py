@@ -148,7 +148,7 @@ def callback():
 		ShowMessage(name)
 
 	else:
-		tkinter.messagebox.showinfo("密码错误！")
+		tkinter.messagebox.showinfo("密码错误", "密码错误！请重新填写密码。")
 
 if __name__ == '__main__':
 	r = tkinter.Tk()
