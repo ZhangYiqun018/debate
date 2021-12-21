@@ -17,7 +17,8 @@ class ToEmail():
 		self.pwd = pwd
 		self.receiver = receiver
 		self.filename = file_name
-		self.time = datetime.datetime.strptime(time, '%H:%M:%S.%f')
+		s = datetime.datetime.now().strftime('%Y-%m-%d ')
+		self.time = datetime.datetime.strptime(s + time, '%Y-%m-%d %H:%M:%S.%f')
 		self.title = title
 		self.content = content
 	def send_email(self):
@@ -61,19 +62,22 @@ class ToEmail():
 	def run(self):
 		while True:
 			start = datetime.datetime.now()
-			ms = (start - self.time).seconds
-			if abs(ms) <= 200:
+			# print(self.time, start)
+			ms = (self.time - start).total_seconds() * 10**6
+			if abs(ms) <= 1000:
 				self.send_email()
-				break
+				start = datetime.datetime.now()
+				ms = (start - self.time).total_seconds() * 10**3
+				# print(start, self.time, ms)
+				return [start, ms]
 
 def quit():
 	sys.exit()
 
 def process(time, sender, pwd, receiver, filename, title, content):
 	e = ToEmail(time, sender, pwd, receiver, filename, title, content)
-	e.run()
-	NowTime = datetime.datetime.now().strftime('%H:%M:%S.%f')
-	tkinter.messagebox.showinfo("发送状态", "发送时间:" + NowTime + "\n发送者:" + sender + "\n接受者:" + receiver + "\n发送成功！")
+	NowTime, ms = e.run()
+	tkinter.messagebox.showinfo("发送状态", "延迟" + str(ms) + " ms\n设定时间" + str(e.time) + "\n发送时间:" + str(NowTime) + "\n发送者:" + sender + "\n接受者:" + receiver + "\n发送成功！")
 
 def callback():
 	def ShowMessage(name):
@@ -100,7 +104,8 @@ def callback():
 		L_time.pack()
 		E_time = tkinter.Entry(r, bd=4)
 		E_time.pack()
-		E_time.insert(tkinter.END, datetime.datetime.now().strftime('%H:%M:%S.%f'))
+		t_time = datetime.datetime.now().strftime('%H:%M:%S.%f')
+		E_time.insert(tkinter.END, t_time)
 
 		L_from = tkinter.Label(r, text="发送的邮箱")
 		L_from.pack()
