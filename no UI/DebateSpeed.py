@@ -60,11 +60,11 @@ class ToEmail():
 				self.send_email()
 				start = datetime.datetime.now()
 				ms = (start - self.time).total_seconds() * 10**3
-				# print(start, self.time, ms)
+				print(f"设定时间:{self.time}\n发送时间: {start}\n延迟：{ms}")
 				return [start, ms]
 
 if __name__ == '__main__':
-	time = "17:10:00.000"
+	time = "17:20:20.000"
 	sender = '875977494@qq.com'
 	pwd = 'cihxsigbxvfxbeej'
 	receiver = '875977494@qq.com'
