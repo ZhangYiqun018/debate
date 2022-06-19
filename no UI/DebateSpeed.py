@@ -1,11 +1,10 @@
-import sys
-import time
 import datetime
 import smtplib
-from email.mime.text import MIMEText
+import time
+from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication 
+from email.mime.text import MIMEText
 
 class ToEmail():
 	def __init__(self, time, sender, pwd, receiver, file_name, title, content):
@@ -61,15 +60,28 @@ class ToEmail():
 				start = datetime.datetime.now()
 				ms = (start - self.time).total_seconds() * 10**3
 				print(f"设定时间:{self.time}\n发送时间: {start}\n延迟：{ms}")
-				return [start, ms]
+				return [self.time, start, ms]
+
+
+def testTime(sender, pwd, receiver, file_name, title, content):
+	totalTime = 0
+	iters = 1
+	for i in range(iters):
+		# setTime = datetime.datetime.now().strftime('%H:%M:%S.%f')
+		setTime = "10:08:20.000"
+		setTime, startTime, delayTime = ToEmail(setTime, sender, pwd, receiver, file_name, title, content).run()
+		totalTime += delayTime
+		time.sleep(10)
+
+	print(f"平均延迟：{totalTime/iters}ms")
 
 if __name__ == '__main__':
-	time = "17:20:20.000"
+	setTime = "12:00:00.000"
 	sender = '875977494@qq.com'
 	pwd = 'cihxsigbxvfxbeej'
 	receiver = '875977494@qq.com'
-	file_name = '这是测试.xlsx'
+	file_name = '莱布尼茨不拧齿轮-第五届南有嘉木华语辩论联赛报名文表.zip'
 	title = '这是测试'
 	content = '这是测试'
-	t = ToEmail(time, sender, pwd, receiver, file_name, title, content)
-	t.run()
+
+	testTime(sender, pwd, receiver, file_name, title, content)
