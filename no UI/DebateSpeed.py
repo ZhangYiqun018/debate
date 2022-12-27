@@ -5,6 +5,7 @@ from email.mime.application import MIMEApplication
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import argparse
 
 class ToEmail():
 	def __init__(self, time, sender, pwd, receiver, file_name, title, content):
@@ -17,7 +18,9 @@ class ToEmail():
 		self.title = title
 		self.content = content
 	def send_email(self):
-		host_server = 'smtp.qq.com'
+		# qq
+		# host_server = 'smtp.qq.com'
+		host_server = 'smtp.sina.com'
 		# pwd = 'bcycomisbtisbege'
 		# pwd = 'enuhxtcuorumbbeg'
 
@@ -65,23 +68,65 @@ class ToEmail():
 
 def testTime(sender, pwd, receiver, file_name, title, content):
 	totalTime = 0
-	iters = 1
+	iters = 20
+	delay = 6
 	for i in range(iters):
 		# setTime = datetime.datetime.now().strftime('%H:%M:%S.%f')
-		setTime = "10:08:20.000"
+		setTime = (datetime.datetime.now() + datetime.timedelta(seconds=2)).strftime('%H:%M:%S.%f')
 		setTime, startTime, delayTime = ToEmail(setTime, sender, pwd, receiver, file_name, title, content).run()
 		totalTime += delayTime
-		time.sleep(10)
+		time.sleep(delay)
 
-	print(f"平均延迟：{totalTime/iters}ms")
+	print(f"共测试{iters}次, 平均延迟：{totalTime/iters}ms")
 
 if __name__ == '__main__':
-	setTime = "12:00:00.000"
-	sender = '875977494@qq.com'
-	pwd = 'cihxsigbxvfxbeej'
-	receiver = '875977494@qq.com'
-	file_name = '莱布尼茨不拧齿轮-第五届南有嘉木华语辩论联赛报名文表.zip'
-	title = '这是测试'
-	content = '这是测试'
+	parser = argparse.ArgumentParser(
+		description = 'argpase of auto email'
+	)
+	# 发送时间
+	parser.add_argument(
+		'--time',
+		type = str,
+		help = 'time: format{hh:mm:ss.xxx}'
+	)
+	# 发送邮箱
+	parser.add_argument(
+		'--to',
+		type    = str,
+		default = '875977494@qq.com',
+		help    = 'receiver',
+	)
+	# 设置邮件主题
+	parser.add_argument(
+		'--title',
+		type=str,
+		default='test',
+	)
+	# 设置文件名
+	parser.add_argument(
+		'--file',
+		type=str,
+		default='这是测试.xlsx',
+	)
+	# 初始化参数
+	args = parser.parse_args()
+	print(args)
+	setTime   = args.time
+	receiver  = args.to
+	file_name = args.file
+	title     = args.title
+	content   = args.title
 
-	testTime(sender, pwd, receiver, file_name, title, content)
+	# sender = '875977494@qq.com'
+	sender = 'a464849627@sina.com'
+	# qq
+	# pwd = 'bcycomisbtisbege'
+	# sina
+	pwd = '6682437211568111'
+	# receiver = '875977494@qq.com'
+	# file_name = '莱布尼茨不吃泡芙队+第一届泡芙杯网络辩论赛.xlsx'
+	# title = '莱布尼茨不吃泡芙队+第一届泡芙杯网络辩论赛'
+	# content = '莱布尼茨不吃泡芙队+第一届泡芙杯网络辩论赛'
+	ToEmail(setTime, sender, pwd, receiver, file_name, title, content).run()
+
+# python DebateSpeed.py --file 莱布尼茨不吃泡芙队+第一届泡芙杯网络辩论赛.xlsx --title  莱布尼茨不吃泡芙队+第一届泡芙杯网络辩论赛 --to 875977494@qq.com --time 10:57:59.000
